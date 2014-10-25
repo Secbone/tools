@@ -25,6 +25,7 @@ a{
     text-decoration: none;
     line-height: inherit;
     color: inherit;
+    outline: 0;
 }
 ul{
     overflow: hidden;
@@ -88,6 +89,9 @@ ul li a:before{
     top: 0;
     left: 0;
     -webkit-animation: cursor 1s linear infinite;
+}
+ul li a:focus:before{
+    display: block;
 }
 ul li a:hover:before{
     display: block;
