@@ -10,6 +10,9 @@
                     val += Convert.private._char2Number(data.charCodeAt(i), 16);
                 }
                 return val;
+            },
+            base64: function(data){
+                return Convert.private._base64Encode(data);
             }
         },
         decode: {
@@ -18,7 +21,7 @@
             },
             //TODO
             hex: function(data){
-                return;
+                return data;
             },
             base64: function(data){
                 return Convert.private._base64Decode(data);
@@ -130,8 +133,12 @@
     way.watchAll(function(selector, value){
         console.log(selector+":"+value);
         //way.set("input", value, {silent: true});
-        var string = Convert.decode[selector]();
-        console.log(string);
+        var string = Convert.decode[selector](value);
         way.set("string", string, {silent: true});
+        for(var type in Convert.encode){
+            if(type != 'string' && type != selector){
+                way.set(type, Convert.encode[type](string), {silent: true});
+            }
+        }
     })
 })();
