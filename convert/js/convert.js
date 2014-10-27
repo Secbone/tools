@@ -13,6 +13,13 @@
             },
             base64: function(data){
                 return Convert.private._base64Encode(data);
+            },
+            asc: function(data){
+                var arr = [];
+                for(var i=0; i<data.length; i++){
+                    arr.push(data.charCodeAt(i));
+                }
+                return arr.join(" ");
             }
         },
         decode: {
@@ -25,6 +32,15 @@
             },
             base64: function(data){
                 return Convert.private._base64Decode(data);
+            },
+            asc: function(data){
+                var result = "";
+                var string = String(data).replace(/\,/g, ' ');
+                var arr = string.split(' ');
+                for(var i in arr){
+                    result += String.fromCharCode(arr[i]);
+                }
+                return result;
             }
         },
         private: {
@@ -131,9 +147,10 @@
         }
     }
     way.watchAll(function(selector, value){
-        console.log(selector+":"+value);
+        //console.log(selector+":"+value);
         //way.set("input", value, {silent: true});
         var string = Convert.decode[selector](value);
+        if(!string) return way.remove(null, {persistent: true, silent: true});
         way.set("string", string, {silent: true});
         for(var type in Convert.encode){
             if(type != 'string' && type != selector){
