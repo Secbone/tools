@@ -6,21 +6,24 @@
         <link rel="stylesheet" href="style/style.css">
     </head>
     <body>
-        <header></header>
-        <table>
-            <tr>
-                <td>字符串</td>
-                <td><input way-data="string" type="text"></td>
-            </tr>
-            <tr>
-                <td>Base64</td>
-                <td><input way-data="base64" type="text"></td>
-            </tr>
-            <tr>
-                <td>Asc</td>
-                <td><input way-data="asc" type="text"></td>
-            </tr>
-        </table>
+        <header>在线编码转换</header>
+        <div class="main">
+            <div class="string-box">
+                <input class="string-input" way-data="string" type="text">
+            </div>
+            <div class="convert-box">
+                <ul>
+                    <li>
+                        <input way-data="base64" type="text" value="" required>
+                        <label>Base64</label>
+                    </li>
+                    <li>
+                        <input way-data="asc" type="text" value="" required>
+                        <label>Asc</label>
+                    </li>
+                </ul>
+            </div>
+        </div>
         <script type="text/javascript" src="js/way.js"></script>
         <script type="text/javascript" src="js/convert.js"></script>
     </body>
