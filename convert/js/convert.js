@@ -149,8 +149,8 @@
     way.watchAll(function(selector, value){
         //console.log(selector+":"+value);
         //way.set("input", value, {silent: true});
+        if(!value) return way.remove(null, {persistent: true, silent: true});
         var string = Convert.decode[selector](value);
-        if(!string) return way.remove(null, {persistent: true, silent: true});
         way.set("string", string, {silent: true});
         for(var type in Convert.encode){
             if(type != 'string' && type != selector){
