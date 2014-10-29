@@ -7,9 +7,9 @@
             hex: function(data){
                 var val = '';
                 for(var i=0; i<data.length; i++){
-                    val += Convert.private._char2Number(data.charCodeAt(i), 16);
+                    val += data.charCodeAt(i).toString(16);
                 }
-                return val;
+                return '0x'+val.toUpperCase();
             },
             base64: function(data){
                 return Convert.private._base64Encode(data);
@@ -26,9 +26,20 @@
             string: function(data){
                 return data;
             },
-            //TODO
+            //TODO  Only start with '0x' or '\u' in english
             hex: function(data){
-                return data;
+                var string = String(data);
+                var hexStr = "";
+                if(string.slice(0,2) == '0x'){
+                    string = string.replace(/0x/g, '');
+                    for(var i=0; i<string.length/2; i++){
+                        console.log(string.slice(i*2, i*2+2));
+                        hexStr += "%u00"+string.slice(i*2, i*2+2);
+                    }
+                }else if(string.slice(0,2) == '\\u'){
+                    hexStr = string.replace(/\\/g, '%');
+                }
+                return unescape(hexStr);
             },
             base64: function(data){
                 return Convert.private._base64Decode(data);
@@ -46,14 +57,7 @@
         private: {
             _base64Chars: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
 
-            //TODO
-            _char2Number: function(char, num){
-                return char.toString(num);
-            },
-            //TODO
-            _Number2Char: function(char, num){
 
-            },
             _base64Encode: function(string){
                 var result = '';
                 var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
@@ -78,7 +82,6 @@
                 }
                 return result;
             },
-            // has problem !
             _base64Decode: function(string){
                 var result = "";
                 var chr1, chr2, chr3;
@@ -157,5 +160,7 @@
                 way.set(type, Convert.encode[type](string), {silent: true});
             }
         }
-    })
+    });
+    //TODO
+    //set focus
 })();
