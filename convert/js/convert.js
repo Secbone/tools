@@ -19,7 +19,11 @@
                 return result.toUpperCase();
             },
             sql: function(data){
-                return data;
+                var result = '';
+                for(var i=0; i<data.length; i++){
+                    result += data.charCodeAt(i).toString(16)+"00";
+                }
+                return "0x"+result.toUpperCase();
             },
             base64: function(data){
                 return Convert.private._base64Encode(data);
@@ -43,7 +47,6 @@
                 if(string.slice(0,2) == '0x'){
                     string = string.replace(/0x/g, '');
                     for(var i=0; i<string.length/2; i++){
-                        console.log(string.slice(i*2, i*2+2));
                         hexStr += "%u00"+string.slice(i*2, i*2+2);
                     }
                 }else if(string.slice(0,2) == '\\u'){
@@ -56,8 +59,11 @@
                 return unescape(string);
 
             },
+            //TODO  I think it has bug!
             sql: function(data){
-                return data;
+                var hexStr = String(data).replace(/0x/g, '00');
+                hexStr = hexStr.slice(0, -2).replace(/00/g, '%u00');
+                return unescape(hexStr);
             },
             base64: function(data){
                 return Convert.private._base64Decode(data);
