@@ -11,6 +11,16 @@
                 }
                 return '0x'+val.toUpperCase();
             },
+            url: function(data){
+                var result = '';
+                for(var i=0; i<data.length; i++){
+                    result += "%"+data.charCodeAt(i).toString(16);
+                }
+                return result.toUpperCase();
+            },
+            sql: function(data){
+                return data;
+            },
             base64: function(data){
                 return Convert.private._base64Encode(data);
             },
@@ -40,6 +50,14 @@
                     hexStr = string.replace(/\\/g, '%');
                 }
                 return unescape(hexStr);
+            },
+            url: function(data){
+                var string = String(data).replace(/%/g, '%u00');
+                return unescape(string);
+
+            },
+            sql: function(data){
+                return data;
             },
             base64: function(data){
                 return Convert.private._base64Decode(data);
