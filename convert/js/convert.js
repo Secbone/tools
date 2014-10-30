@@ -185,6 +185,6 @@
             }
         }
     });
-    //TODO
     //set focus
+    document.querySelector(".string-input").focus();
 })();
