@@ -2,3 +2,13 @@ html,body{
     margin: 0;
     padding: 0;
 }
+body{
+    font-family: "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+    background-color: black;
+    color: #0f0;
+}
+header{
+    padding: 0.7em 0;
+    text-align: center;
+    font-size: 3em;
+}
