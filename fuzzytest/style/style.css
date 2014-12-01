@@ -12,3 +12,9 @@ header{
     text-align: center;
     font-size: 3em;
 }
+textarea{
+    color: #0f0;
+    background-color: transparent;
+    border: 1px solid #0f0;
+    outline: 0;
+}
