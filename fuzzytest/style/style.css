@@ -22,7 +22,16 @@ textarea{
 textarea:focus{
     box-shadow: 0 0 5px #0f0;
 }
+::-webkit-input-placeholder{
+    color: #080;
+}
+::-moz-placeholder{
+    color: #080;
+}
+:-ms-input-placeholder{
+    color: #080;
+}
 
 .main{
-    
+
 }
