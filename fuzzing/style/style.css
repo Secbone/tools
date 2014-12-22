@@ -13,14 +13,48 @@ header{
     font-size: 3em;
 }
 textarea{
+    display: inline-block;
+    margin: 0;
+    padding: 1em 2em;
+    min-height: 10em;
     color: #0f0;
     background-color: transparent;
-    border: 1px solid #0f0;
+    border: 0;
     transition: box-shadow 0.2s linear;
+    box-sizing: border-box;
     outline: 0;
 }
 textarea:focus{
-    box-shadow: 0 0 5px #0f0;
+    /*box-shadow: 0 0 5px #0f0;*/
+}
+.textarea{
+    position: relative;
+    display: inline-block;
+    margin: 2px;
+}
+.textarea > textarea{
+    overflow: hidden;
+    margin-bottom: -4px;
+}
+.textarea:before,
+.textarea:after{
+    content: '';
+    position: absolute;
+    display: inline-block;
+    top: -1px;
+    height: 100%;
+    width: 0.5em;
+    border-color: #0f0;
+    border-style: solid;
+    z-index: -1;
+}
+.textarea:before{
+    left: -1px;
+    border-width: 1px 0 1px 1px;
+}
+.textarea:after{
+    right: -1px;
+    border-width: 1px 1px 1px 0;
 }
 ::-webkit-input-placeholder{
     color: #080;
