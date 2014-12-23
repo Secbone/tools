@@ -19,10 +19,14 @@ textarea{
     min-height: 10em;
     color: #0f0;
     background-color: transparent;
-    border: 0;
+    border: 1px solid #0f0;
     transition: box-shadow 0.2s linear;
     box-sizing: border-box;
     outline: 0;
+}
+textarea::-webkit-resizer{
+    background-image: -webkit-linear-gradient(top left, transparent 65%, #0f0 80%);
+    cursor: pointer;
 }
 textarea:focus{
     /*box-shadow: 0 0 5px #0f0;*/
@@ -35,6 +39,7 @@ textarea:focus{
 .textarea > textarea{
     overflow: hidden;
     margin-bottom: -4px;
+    border: 0;
 }
 .textarea:before,
 .textarea:after{
