@@ -74,3 +74,6 @@ textarea:focus{
 .main{
 
 }
+.main .library{
+    display: none;
+}
