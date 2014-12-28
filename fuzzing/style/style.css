@@ -17,6 +17,7 @@ textarea{
     margin: 0;
     padding: 1em 2em;
     min-height: 10em;
+    min-width: 25em;
     color: #0f0;
     background-color: transparent;
     border: 1px solid #0f0;
@@ -71,21 +72,110 @@ textarea:focus{
     color: #080;
 }
 button{
+    position: relative;
     display: inline-block;
+    padding: 0.5em 1em;
     color: #0f0;
     background: none;
     border: 0;
+    outline: 0;
+    cursor: pointer;
+}
+button:before,
+button:after{
+    content: '';
+    position: absolute;
+    display: black;
+    top: 0;
+    height: 100%;
+    width: 1px;
+    background-color: #0f0;
+    opacity: 0;
+    transition: all 0.2s linear;
 }
 button:before{
-    content: '';
-    display: black;
-    background-color: #0f0;
+    left: 50%;
+}
+button:after{
+    right: 50%;
+}
+button:hover:before{
+    left: 0;
+    opacity: 1;
+}
+button:hover:after{
+    right: 0;
+    opacity: 1;
+}
+button:active:before,
+button:active:after{
+    top: 5%;
+    height: 90%;
+    transition: all 0.1s linear;
+}
+/*button:active:before{
+    left: -5%;
+}
+button:active:after{
+    right: -5%;
+}*/
+
+.progress{
+    display: inline-block;
+    position: relative;
+    height: 4em;
+    width: 4em;
+}
+.progress > span{
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 4em;
+    width: 4em;
+    text-align: center;
+    line-height: 4em;
+}
+.progress .progress-line{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 4em;
+    width: 4em;
+    clip: rect(0, 4em, 4em, 2em);
+}
+.progress .progress-line:before,
+.progress .progress-line:after{
+    content: "";
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    border: 1px solid #0f0;
+    box-sizing: border-box;
+    clip: rect(0, 4em, 4em, 2em);
+    transform: rotate(324deg);
+}
+
+input{
+    text-align: center;
 }
 
 .main{
     margin: 0 auto;
     width: 60em;
 }
+.line-box{
+    display: -webkit-flex;
+    margin: 3em 0;
+    /*-webkit-box-pack: center;*/
+    align-items: center;
+    -webkit-justify-content: space-around;
+}
+
 .main .library{
     display: none;
 }
