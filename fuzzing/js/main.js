@@ -1,7 +1,7 @@
 (function() {
     console.log("start");
-    var exp = '<a href="http://:{char}aidu.com">:{i}</a>';
-    var callback = 'for(var i in document.links){if(document.links[i].hostname=="baidu.com"){push(document.links[i].innerHTML)}}';
+    var expDefault = '<a href="http://:{char}aidu.com">:{i}</a>';
+    var callbackDefault = 'for(var i in document.links){if(document.links[i].hostname=="baidu.com"){push(document.links[i].innerHTML)}}';
     var start = 0;
     var end = 65535;
 
@@ -33,7 +33,7 @@
     }
 
     function insetFuzzyEl(){
-        exp = $expEl.value || exp;
+        var exp = $expEl.value || expDefault;
         for(var counter = start; counter <= end; counter++) {
             var fuzzyItem = newEl(formatHTML(exp, counter));
             $library.appendChild(fuzzyItem);
@@ -41,12 +41,15 @@
     }
 
     function evalCallback(){
-        callback = $callbackEl.value || callback;
+        callback = $callbackEl.value || callbackDefault;
         eval(callback);
     }
 
     function getResult(){
         console.log(result);
+        for(var index in result){
+            console.log(String.fromCharCode(result[index]));
+        }
     }
 
     function startFuzzy() {
@@ -59,6 +62,8 @@
     }
 
     window.onload = function(){
+        $expEl.value = expDefault;
+        $callbackEl.value = callbackDefault;
         $startBtn.addEventListener("click", startFuzzy);
     }
 
