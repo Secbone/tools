@@ -70,9 +70,21 @@ textarea:focus{
 :-ms-input-placeholder{
     color: #080;
 }
+button{
+    display: inline-block;
+    color: #0f0;
+    background: none;
+    border: 0;
+}
+button:before{
+    content: '';
+    display: black;
+    background-color: #0f0;
+}
 
 .main{
-
+    margin: 0 auto;
+    width: 60em;
 }
 .main .library{
     display: none;

@@ -34,7 +34,6 @@
 
     function startFuzzy() {
         exp = $expEl.value || exp;
-        console.log(exp.test);
         for(var counter = start; counter <= end; counter++) {
             var fuzzyItem = newEl(formatHTML(exp, counter));
             $library.appendChild(fuzzyItem);
