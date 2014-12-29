@@ -10,6 +10,8 @@
     var $expEl = document.getElementById("exp");
     var $callbackEl = document.getElementById("callback");
     var $sizeEl = document.getElementById("size");
+    var $resultEl = document.getElementById("result");
+    var $charsEl = document.getElementById("chars");
     var $library = document.getElementById("library");
     var $startBtn = document.getElementById("start");
 
@@ -46,9 +48,9 @@
     }
 
     function getResult(){
-        console.log(result);
+        $resultEl.value = result.join(",");
         for(var index in result){
-            console.log(String.fromCharCode(result[index]));
+            $charsEl.value += String.fromCharCode(result[index]);
         }
     }
 
