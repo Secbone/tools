@@ -3,7 +3,7 @@
     var expDefault = '<a href="http://:{char}aidu.com">:{i}</a>';
     var callbackDefault = 'for(var i in document.links){if(document.links[i].hostname=="baidu.com"){push(document.links[i].innerHTML)}}';
     var start = 0;
-    var end = 65535;
+    var endDefault = 65535;
 
     var result = [];
 
@@ -14,9 +14,11 @@
     var $charsEl = document.getElementById("chars");
     var $library = document.getElementById("library");
     var $startBtn = document.getElementById("start");
+    var $progressEL = document.getElementById("progress");
 
     function push(data) {
         result.push(data);
+        getResult();
     }
 
     function newEl(html) {
@@ -34,9 +36,15 @@
         return html;
     }
 
+    function updateProgress(counter){
+        $progressEL.innerHTML = counter;
+    }
+
     function insetFuzzyEl(){
         var exp = $expEl.value || expDefault;
+        var end = $sizeEl.value || endDefault;
         for(var counter = start; counter <= end; counter++) {
+            //updateProgress(counter);
             var fuzzyItem = newEl(formatHTML(exp, counter));
             $library.appendChild(fuzzyItem);
         }
@@ -49,6 +57,7 @@
 
     function getResult(){
         $resultEl.value = result.join(",");
+        $charsEl.value = "";
         for(var index in result){
             $charsEl.value += String.fromCharCode(result[index]);
         }
@@ -60,7 +69,6 @@
 
         insetFuzzyEl();
         evalCallback();
-        getResult();
     }
 
     window.onload = function(){
