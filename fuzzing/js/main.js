@@ -1,11 +1,16 @@
 (function() {
     console.log("start");
     var expDefault = '<a href="http://:{char}aidu.com">:{i}</a>';
+    var exp = expDefault;
     var callbackDefault = 'for(var i in document.links){if(document.links[i].hostname=="baidu.com"){push(document.links[i].innerHTML)}}';
     var start = 0;
     var endDefault = 65535;
+    var end = endDefault;
+
 
     var result = [];
+
+    var counter = 0;
 
     var $expEl = document.getElementById("exp");
     var $callbackEl = document.getElementById("callback");
@@ -15,6 +20,9 @@
     var $library = document.getElementById("library");
     var $startBtn = document.getElementById("start");
     var $progressEL = document.getElementById("progress");
+    var $progLine = document.getElementById("prog-line");
+    var $lineBefore = document.getElementById("line-before");
+    var $lineAfter = document.getElementById("line-after");
 
     function push(data) {
         result.push(data);
@@ -36,18 +44,45 @@
         return html;
     }
 
-    function updateProgress(counter){
-        $progressEL.innerHTML = counter;
+    function setRotate(percent) {
+        var rotate = 360*percent/100-180;
+        if(percent < 50) {
+            if($progLine.className != "progress-line")
+                $progLine.className = "progress-line";
+            if($lineBefore.className != "before")
+                $lineBefore.className = "before";
+            $lineBefore.style = "transform: rotate("+rotate+"deg)";
+        }else {
+            if($progLine.className != "progress-line full")
+                $progLine.className = "progress-line full";
+            if($lineBefore.className != "before full")
+                $lineBefore.className = "before full";
+            $lineAfter.style = "transform: rotate("+rotate+"deg)";
+        }
+    }
+
+    function updateProgress(counter, total){
+        if(counter <= end) {
+            var fuzzyItem = newEl(formatHTML(exp, counter));
+            $library.appendChild(fuzzyItem);
+            var percent = (counter/total*100).toFixed(1);
+            $progressEL.innerHTML = (percent)+"%";
+            setRotate(percent);
+            setTimeout(function(){
+                updateProgress(counter, total);
+            }, 0);
+            counter++;
+        }else{
+            evalCallback();
+        }
     }
 
     function insetFuzzyEl(){
-        var exp = $expEl.value || expDefault;
-        var end = $sizeEl.value || endDefault;
-        for(var counter = start; counter <= end; counter++) {
-            //updateProgress(counter);
-            var fuzzyItem = newEl(formatHTML(exp, counter));
-            $library.appendChild(fuzzyItem);
-        }
+        exp = $expEl.value || expDefault;
+        end = $sizeEl.value || endDefault;
+        counter = start;
+        var total = end - start;
+        updateProgress(counter, total);
     }
 
     function evalCallback(){
@@ -68,7 +103,7 @@
         $library.innerHTML = "";
 
         insetFuzzyEl();
-        evalCallback();
+        //evalCallback();
     }
 
     window.onload = function(){
