@@ -475,7 +475,7 @@ ob_flush();
 flush();
 for($i=0;$i<sizeof($port);$i++)
 {
-	$fp = @fsockopen($remoteip, $port[$i], &$errno, &$errstr, 1);
+	$fp = @fsockopen($remoteip, $port[$i], $errno, $errstr, 1);
 	if (!$fp) {
 		echo '<div class="result_line">
 				<div class="port">'.$port[$i].'</div>
