@@ -1,20 +1,20 @@
 ﻿<?php
-function getIP() { 
-if (@$_SERVER["HTTP_X_FORWARDED_FOR"]) 
-$ip = $_SERVER["HTTP_X_FORWARDED_FOR"]; 
-else if (@$_SERVER["HTTP_CLIENT_IP"]) 
-$ip = $_SERVER["HTTP_CLIENT_IP"]; 
-else if (@$_SERVER["REMOTE_ADDR"]) 
-$ip = $_SERVER["REMOTE_ADDR"]; 
+function getIP() {
+if (@$_SERVER["HTTP_X_FORWARDED_FOR"])
+$ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
+else if (@$_SERVER["HTTP_CLIENT_IP"])
+$ip = $_SERVER["HTTP_CLIENT_IP"];
+else if (@$_SERVER["REMOTE_ADDR"])
+$ip = $_SERVER["REMOTE_ADDR"];
 else if (@getenv("HTTP_X_FORWARDED_FOR"))
-$ip = getenv("HTTP_X_FORWARDED_FOR"); 
-else if (@getenv("HTTP_CLIENT_IP")) 
-$ip = getenv("HTTP_CLIENT_IP"); 
-else if (@getenv("REMOTE_ADDR")) 
-$ip = getenv("REMOTE_ADDR"); 
-else 
-$ip = "Unknown"; 
-return $ip; 
+$ip = getenv("HTTP_X_FORWARDED_FOR");
+else if (@getenv("HTTP_CLIENT_IP"))
+$ip = getenv("HTTP_CLIENT_IP");
+else if (@getenv("REMOTE_ADDR"))
+$ip = getenv("REMOTE_ADDR");
+else
+$ip = "Unknown";
+return $ip;
 }
 $youip=getIP(); // 获取本机IP地址
 if(@$_POST["remoteip"])
@@ -24,7 +24,7 @@ if(@$_POST["remoteip"])
 <head>
 <title>在线端口扫描&mdash;&mdash;2nd丶骨頭</title>
 <meta charset="utf-8">
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="//cdn.bootcss.com/jquery/1.9.1/jquery.min.js"></script>
 <style TYPE="text/css">
 <!--
 TD {
@@ -43,42 +43,42 @@ table{
 	}
 	@keyframes fadeIn {
 		0% {
-			opacity: 0; 
+			opacity: 0;
 		}
 		100% {
-			opacity: 1; 
+			opacity: 1;
 		}
 	}
 	@-webkit-keyframes fadeIn {
 		0% {
-			opacity: 0; 
+			opacity: 0;
 		}
 		100% {
-			opacity: 1; 
+			opacity: 1;
 		}
 	}
 	@-moz-keyframes fadeIn {
 		0% {
-			opacity: 0; 
+			opacity: 0;
 		}
 		100% {
-			opacity: 1; 
+			opacity: 1;
 		}
 	}
 	@-ms-keyframes fadeIn {
 		0% {
-			opacity: 0; 
+			opacity: 0;
 		}
 		100% {
-			opacity: 1; 
+			opacity: 1;
 		}
 	}
 	@-o-keyframes fadeIn {
 		0% {
-			opacity: 0; 
+			opacity: 0;
 		}
 		100% {
-			opacity: 1; 
+			opacity: 1;
 		}
 	}
 	@-webkit-keyframes title{
@@ -296,25 +296,25 @@ table{
 		color: white;
 		width: 500px;
 		text-shadow: 0 0 3px white;
-		animation-name: fadeIn; 
-		animation-duration: 3s; 
-		animation-iteration-count: 1; 
+		animation-name: fadeIn;
+		animation-duration: 3s;
+		animation-iteration-count: 1;
 		animation-delay: 0s;
-		-webkit-animation-name: fadeIn; 
-		-webkit-animation-duration: 3s; 
-		-webkit-animation-iteration-count: 1; 
+		-webkit-animation-name: fadeIn;
+		-webkit-animation-duration: 3s;
+		-webkit-animation-iteration-count: 1;
 		-webkit-animation-delay: 0s;
-		-moz-animation-name: fadeIn; 
-		-moz-animation-duration: 3s; 
-		-moz-animation-iteration-count: 1; 
+		-moz-animation-name: fadeIn;
+		-moz-animation-duration: 3s;
+		-moz-animation-iteration-count: 1;
 		-moz-animation-delay: 0s;
-		-ms-animation-name: fadeIn; 
-		-ms-animation-duration: 3s; 
-		-ms-animation-iteration-count: 1; 
+		-ms-animation-name: fadeIn;
+		-ms-animation-duration: 3s;
+		-ms-animation-iteration-count: 1;
 		-ms-animation-delay: 0s;
-		-o-animation-name: fadeIn; 
-		-o-animation-duration: 3s; 
-		-o-animation-iteration-count: 1; 
+		-o-animation-name: fadeIn;
+		-o-animation-duration: 3s;
+		-o-animation-iteration-count: 1;
 		-o-animation-delay: 0s;
 	}
 	.result_box .result_line_open{
@@ -495,7 +495,7 @@ for($i=0;$i<sizeof($port);$i++)
 		ob_flush();
 		flush();
 	}
-}		
+}
 echo '<a href="/" class="return_btn">继续扫描</a>
 		</div>';
 /***************旧版***********
