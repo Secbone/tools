@@ -12,6 +12,9 @@ self.addEventListener("message", function(msg) {
 
     switch(msg.data.type) {
         case "start":
+            // Worker is running
+            if(handler) return;
+
             current = 0;
             end = msg.data.end;
             html = "";
@@ -48,6 +51,7 @@ function triggerProgress() {
     if(current >= end) {
         clearInterval(handler);
         workDone();
+        handler = null;
     }
 }
 
