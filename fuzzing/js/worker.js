@@ -51,7 +51,7 @@ function triggerProgress() {
     if(current >= end) {
         clearInterval(handler);
         workDone();
-        handler = null;
+        cleanMem();
     }
 }
 
@@ -62,4 +62,9 @@ function formatHTML(html, i){
         html = html.replace(/:{char}/, char);
     }
     return html;
+}
+
+function cleanMem() {
+    html = "";
+    handler = null;
 }
