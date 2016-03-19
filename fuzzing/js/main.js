@@ -3,14 +3,11 @@
     var expDefault = '<a href="http://:{char}aidu.com">:{i}</a>';
     var exp = expDefault;
     var callbackDefault = 'for(var i in document.links){if(document.links[i].hostname=="baidu.com"){push(document.links[i].innerHTML)}}';
-    var start = 0;
     var endDefault = 65535;
     var end = endDefault;
 
 
     var result = [];
-
-    var counter = 0;
 
     var $expEl = document.getElementById("exp");
     var $callbackEl = document.getElementById("callback");
@@ -24,27 +21,48 @@
     var $lineBefore = document.getElementById("line-before");
     var $lineAfter = document.getElementById("line-after");
 
+    var HTMLWorker = new Worker("js/worker.js");
+
+    // Add listener to worker
+    HTMLWorker.addEventListener("message", function(msg) {
+
+        // switch by type
+        switch (msg.data.type) {
+            case "progress":
+                setRotate(msg.data.percent);
+                break;
+            case "done":
+                evalCallback(msg.data.html);
+                break;
+        }
+    });
+
+    window.onload = function(){
+        $expEl.value = expDefault;
+        $callbackEl.value = callbackDefault;
+        $startBtn.addEventListener("click", startFuzzy);
+    }
+
+    // API push
     function push(data) {
         result.push(data);
         getResult();
     }
 
-    function newEl(html) {
-        var parentEl = document.createElement("div");
-        parentEl.innerHTML = html;
-        return parentEl.childNodes[0];
-    }
-
-    function formatHTML(html, i){
-        html = html.replace(/:{i}/, i);
-        if(/:{char}/.test(html)){
-            var char = String.fromCharCode(i);
-            html = html.replace(/:{char}/, char);
+    // Default display result
+    function getResult(){
+        $resultEl.value = result.join(",");
+        $charsEl.value = "";
+        for(var index in result){
+            $charsEl.value += String.fromCharCode(result[index]);
         }
-        return html;
     }
 
+
+    // Display percent string and circle
     function setRotate(percent) {
+        $progressEL.innerHTML = (percent)+"%";
+
         var rotate = 360*percent/100-180;
         if(percent < 50) {
             if($progLine.className != "progress-line")
@@ -61,55 +79,30 @@
         }
     }
 
-    function updateProgress(counter, total){
-        if(counter <= end) {
-            var fuzzyItem = newEl(formatHTML(exp, counter));
-            $library.appendChild(fuzzyItem);
-            var percent = (counter/total*100).toFixed(1);
-            $progressEL.innerHTML = (percent)+"%";
-            setRotate(percent);
-            setTimeout(function(){
-                updateProgress(counter, total);
-            }, 0);
-            counter++;
-        }else{
-            evalCallback();
-        }
-    }
-
+    // Set default value
     function insetFuzzyEl(){
-        exp = $expEl.value || expDefault;
-        end = $sizeEl.value || endDefault;
-        counter = start;
-        var total = end - start;
-        updateProgress(counter, total);
+
+        // Start Worker
+        HTMLWorker.postMessage({
+            type: "start",
+            exp: $expEl.value || expDefault,
+            end: $sizeEl.value || endDefault,
+        });
     }
 
-    function evalCallback(){
+    // Eval CallBack (html) -> nulls
+    function evalCallback(html){
         callback = $callbackEl.value || callbackDefault;
+        $library.innerHTML = html;
         eval(callback);
     }
 
-    function getResult(){
-        $resultEl.value = result.join(",");
-        $charsEl.value = "";
-        for(var index in result){
-            $charsEl.value += String.fromCharCode(result[index]);
-        }
-    }
-
+    // Click start Fuzzy
     function startFuzzy() {
         result = [];
         $library.innerHTML = "";
 
         insetFuzzyEl();
-        //evalCallback();
-    }
-
-    window.onload = function(){
-        $expEl.value = expDefault;
-        $callbackEl.value = callbackDefault;
-        $startBtn.addEventListener("click", startFuzzy);
     }
 
 })();
