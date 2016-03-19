@@ -5,11 +5,11 @@ var handler = null;
 var exp = '<a href="http://:{char}aidu.com">:{i}</a>';
 
 // num per times
-var duretion = 200;
+var duration = 200;
 
 self.addEventListener("message", function(msg) {
-    console.log(msg);
 
+    // switch by type
     switch(msg.data.type) {
         case "start":
             // Worker is running
@@ -26,7 +26,7 @@ self.addEventListener("message", function(msg) {
 });
 
 function startContactHTML() {
-    for(var i=current;i<=end&&i<current+duretion;i++) {
+    for(var i=current; i<=end&&i<current+duration; i++) {
         html += formatHTML(exp, i);
     }
     current = i;
