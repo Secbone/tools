@@ -15,19 +15,9 @@
             <li><a href="fuzzing/" target="_blank">Fuzz Testing</a></li>
         </ul>
         <script>
-            document.ready = function(callback) {
-                if(document.addEventListener) {
-                    document.addEventListener("DOMContentLoaded", function() {
-                        document.removeEventListener("DOMContentLoaded", arguments.callee, false);
-                        callback();
-                    }, false);
-                } else {
-                    callback();
-                }
-            }
-            document.ready(function(){
+            window.onload = function() {
                 document.getElementsByTagName('ul')[0].className = "active";
-            });
+            };
         </script>
     </body>
 </html>
