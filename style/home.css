@@ -1,0 +1,176 @@
+:root {
+    --green: #0f0;
+    --dim: #0a0;
+    --line: #063;
+    --muted: #080;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+        radial-gradient(800px 500px at 50% -10%, rgba(0, 255, 0, 0.08), transparent 60%),
+        #000;
+    color: var(--green);
+    font-family: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    -webkit-font-smoothing: antialiased;
+}
+
+header {
+    text-align: center;
+    padding: 64px 20px 30px;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 34px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+header h1::before,
+header h1::after {
+    color: #040;
+    font-weight: 400;
+}
+
+header h1::before {
+    content: "/* ";
+}
+
+header h1::after {
+    content: " */";
+}
+
+header p {
+    margin: 10px 0 0;
+    color: var(--muted);
+    font-size: 13px;
+    letter-spacing: 0.3px;
+}
+
+.grid {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 20px 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+}
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: linear-gradient(180deg, rgba(0, 40, 0, 0.18), rgba(0, 0, 0, 0.2));
+    color: inherit;
+    text-decoration: none;
+    transition:
+        transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+    animation: fadeUp 0.5s ease both;
+    animation-delay: calc(var(--i) * 60ms);
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    border-color: var(--dim);
+    box-shadow: 0 14px 44px rgba(0, 255, 0, 0.09);
+}
+
+.card svg {
+    width: 28px;
+    height: 28px;
+    color: var(--green);
+    opacity: 0.9;
+}
+
+.card h2 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--green);
+}
+
+.card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.tag {
+    margin-top: auto;
+    align-self: flex-start;
+    padding: 2px 8px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: 10px;
+    color: var(--dim);
+    letter-spacing: 0.4px;
+}
+
+footer {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 20px 40px;
+    color: #060;
+    font-size: 11px;
+    line-height: 1.8;
+    text-align: center;
+}
+
+footer a {
+    color: var(--dim);
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@media (max-width: 520px) {
+    header {
+        padding-top: 42px;
+    }
+
+    header h1 {
+        font-size: 26px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+        padding: 0 12px 30px;
+    }
+
+    .card {
+        padding: 16px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .card {
+        animation: none;
+        transition: none;
+    }
+}

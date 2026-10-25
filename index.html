@@ -1,26 +1,93 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf8">
-        <title>Secbone's Online Tools</title>
-        <link href='//fonts.lug.ustc.edu.cn/css?family=Exo+2' rel='stylesheet' type='text/css'>
-        <link href='//fonts.lug.ustc.edu.cn/css?family=Audiowide' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="style/style.css">
-    </head>
-    <body>
-        <header>Welcome</header>
-        <ul>
-            <li><a href="drop/" target="_blank">Drop Files</a></li>
-            <li><a href="scan/" target="_blank">Port Scanner</a></li>
-            <li><a href="convert/" target="_blank">Convert Type</a></li>
-            <li><a href="fuzzing/" target="_blank">Fuzz Testing</a></li>
-            <li><a href="jother/" target="_blank">Jother Encode</a></li>
-            <li><a href="intranet/" target="_blank">Intranet Scan</a></li>
-        </ul>
-        <script>
-            window.onload = function() {
-                document.getElementsByTagName('ul')[0].className = "active";
-            };
-        </script>
-    </body>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secbone's Online Tools</title>
+    <link rel="stylesheet" href="style/home.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome</h1>
+        <p>Secbone's Online Tools</p>
+    </header>
+
+    <main class="grid">
+        <a class="card" href="drop/" target="_blank" rel="noopener" style="--i:0">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3v12"></path>
+                <path d="m7 10 5 5 5-5"></path>
+                <path d="M5 21h14"></path>
+            </svg>
+            <h2>Drop Files</h2>
+            <p>AirDrop 风格的 P2P 文件与文本互传，数据不经过服务器。</p>
+            <span class="tag">P2P</span>
+        </a>
+
+        <a class="card" href="scan/" target="_blank" rel="noopener" style="--i:1">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M12 2v3M12 19v3M2 12h3M19 12h3"></path>
+                <path d="M5.6 5.6 7.7 7.7M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"></path>
+            </svg>
+            <h2>Port Scanner</h2>
+            <p>TCP 端口扫描，由 Cloudflare Workers 发起。</p>
+            <span class="tag">TCP</span>
+        </a>
+
+        <a class="card" href="convert/" target="_blank" rel="noopener" style="--i:2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 7h13"></path>
+                <path d="m14 4 3 3-3 3"></path>
+                <path d="M20 17H7"></path>
+                <path d="m10 14-3 3 3 3"></path>
+            </svg>
+            <h2>Convert Type</h2>
+            <p>进制、编码与类型转换。</p>
+            <span class="tag">UTILITY</span>
+        </a>
+
+        <a class="card" href="fuzzing/" target="_blank" rel="noopener" style="--i:3">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 3h5v5"></path>
+                <path d="M21 3 3 21"></path>
+                <path d="M8 3H3v5"></path>
+                <path d="m3 3 6 6"></path>
+                <path d="m21 21-6-6"></path>
+            </svg>
+            <h2>Fuzz Testing</h2>
+            <p>Fuzz 测试字符串生成。</p>
+            <span class="tag">FUZZ</span>
+        </a>
+
+        <a class="card" href="jother/" target="_blank" rel="noopener" style="--i:4">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m8 6-6 6 6 6"></path>
+                <path d="m16 6 6 6-6 6"></path>
+                <path d="m14 4-4 16"></path>
+            </svg>
+            <h2>Jother Encode</h2>
+            <p>Jother JavaScript 混淆/编码。</p>
+            <span class="tag">JS</span>
+        </a>
+
+        <a class="card" href="intranet/" target="_blank" rel="noopener" style="--i:5">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="6" height="6" rx="1"></rect>
+                <rect x="15" y="3" width="6" height="6" rx="1"></rect>
+                <rect x="9" y="15" width="6" height="6" rx="1"></rect>
+                <path d="M6 9v3h12V9"></path>
+                <path d="M12 12v3"></path>
+            </svg>
+            <h2>Intranet Scan</h2>
+            <p>浏览器端内网扫描（客户端 JS）。</p>
+            <span class="tag">LAN</span>
+        </a>
+    </main>
+
+    <footer>
+        <p>All tools run in the browser. Some features use Cloudflare Workers for signaling or scanning.</p>
+        <p><a href="https://github.com/Secbone/tools" target="_blank" rel="noopener">github.com/Secbone/tools</a></p>
+    </footer>
+</body>
 </html>
