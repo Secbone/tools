@@ -12,7 +12,7 @@ const state = {
   myId: null,
   room: null,
   manualRoom: "",
-  name: localStorage.getItem("drop-name") || randomName(),
+  name: initialName(),
   peers: new Map(),
   reconnectTimer: null,
   stopReconnect: false,
@@ -20,12 +20,26 @@ const state = {
   modalCallback: null,
 };
 
+const peerEls = new Map();
+
+const DEVICE_ICON = `
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="4" y="3" width="16" height="14" rx="2"></rect>
+  <path d="M9 21h6"></path>
+  <path d="M12 17v4"></path>
+</svg>`;
+
 const els = {
   status: document.getElementById("status"),
   room: document.getElementById("room"),
   join: document.getElementById("join"),
   auto: document.getElementById("auto"),
   roomInfo: document.getElementById("room-info"),
+  nameInput: document.getElementById("name"),
+  saveName: document.getElementById("save-name"),
+  radarLabel: document.getElementById("radar-label"),
+  radar: document.getElementById("radar"),
+  radarEmpty: document.getElementById("radar-empty"),
   peers: document.getElementById("peers"),
   target: document.getElementById("target"),
   dropzone: document.getElementById("dropzone"),
@@ -42,9 +56,45 @@ const els = {
 };
 
 localStorage.setItem("drop-name", state.name);
+if (els.nameInput) els.nameInput.value = state.name;
+if (els.radarLabel) els.radarLabel.textContent = state.name;
 
-function randomName() {
-  return `设备-${Math.random().toString(36).slice(2, 6)}`;
+function defaultDeviceName() {
+  const ua = navigator.userAgent || "";
+  let os = "设备";
+  if (/iPhone/.test(ua)) os = "iPhone";
+  else if (/iPad/.test(ua)) os = "iPad";
+  else if (/Android/.test(ua)) os = "Android";
+  else if (/Mac OS X|Macintosh/.test(ua)) os = "Mac";
+  else if (/Windows/.test(ua)) os = "Windows";
+  else if (/Linux/.test(ua)) os = "Linux";
+
+  let browser = "浏览器";
+  if (/Edg\//.test(ua)) browser = "Edge";
+  else if (/CriOS/.test(ua)) browser = "Chrome";
+  else if (/FxiOS/.test(ua)) browser = "Firefox";
+  else if (/Chrome\//.test(ua)) browser = "Chrome";
+  else if (/Firefox\//.test(ua)) browser = "Firefox";
+  else if (/Safari\//.test(ua)) browser = "Safari";
+
+  return `${os} · ${browser}`;
+}
+
+function initialName() {
+  const saved = (localStorage.getItem("drop-name") || "").trim();
+  if (saved && !/^设备-[a-z0-9]{4}$/i.test(saved)) return saved;
+  return defaultDeviceName();
+}
+
+function saveName() {
+  const clean = (els.nameInput?.value || "").trim().replace(/\s+/g, " ").slice(0, 32);
+  state.name = clean || defaultDeviceName();
+  localStorage.setItem("drop-name", state.name);
+  if (els.nameInput) els.nameInput.value = state.name;
+  if (els.radarLabel) els.radarLabel.textContent = state.name;
+  if (state.ws && state.ws.readyState === WebSocket.OPEN) {
+    state.ws.send(JSON.stringify({ type: "hello", name: state.name }));
+  }
 }
 
 function formatSize(bytes) {
@@ -433,7 +483,7 @@ async function onFileStart(peer, msg) {
 
     peer.incoming.sink = sink;
     peer.incoming.accepted = true;
-    peer.incoming.row = addTransfer("receive", peer.name, meta.name, meta.size);
+    peer.incoming.row = addTransfer("receive", peer.name, meta.name, meta.size, peer);
     sendControl(peer, { t: "file-accept" });
   });
 }
@@ -489,7 +539,7 @@ async function sendFile(peer, file) {
     return;
   }
 
-  const row = addTransfer("send", peer.name, file.name, file.size);
+  const row = addTransfer("send", peer.name, file.name, file.size, peer);
 
   const accepted = await new Promise((resolve) => {
     peer.outgoing = {
@@ -657,31 +707,44 @@ async function abortSink(sink) {
 /* ---------------- UI ---------------- */
 
 function renderPeers() {
-  els.peers.innerHTML = "";
-
   const list = Array.from(state.peers.values());
-  if (!list.length) {
-    const empty = document.createElement("div");
-    empty.className = "peer";
-    empty.textContent = "等待同网设备…";
-    els.peers.appendChild(empty);
-  } else {
-    for (const peer of list) {
-      const card = document.createElement("div");
-      card.className = "peer";
+  const n = list.length;
 
-      const name = document.createElement("div");
-      name.className = "peer-name";
-      name.textContent = peer.name;
-
-      const st = document.createElement("div");
-      st.className = "peer-state";
-      st.textContent = peerLabel(peer);
-
-      card.append(name, st);
-      els.peers.appendChild(card);
+  for (const [id, el] of peerEls) {
+    if (!list.some((p) => p.id === id)) {
+      el.classList.add("leave");
+      peerEls.delete(id);
+      setTimeout(() => el.remove(), 500);
     }
   }
+
+  const size = els.radar?.clientWidth || 360;
+  const radius = size * 0.33;
+
+  list.forEach((peer, index) => {
+    let el = peerEls.get(peer.id);
+    if (!el) {
+      el = createPeerEl(peer);
+      el.classList.add("enter");
+      els.peers.appendChild(el);
+      peerEls.set(peer.id, el);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => el.classList.remove("enter"));
+      });
+      el.addEventListener("click", () => selectPeer(peer.id));
+    }
+
+    const angle = n === 1 ? -Math.PI / 2 : -Math.PI / 2 + (index * 2 * Math.PI) / n;
+    const x = Math.cos(angle) * radius;
+    const y = Math.sin(angle) * radius;
+    el.style.setProperty("--x", `${x.toFixed(1)}px`);
+    el.style.setProperty("--y", `${y.toFixed(1)}px`);
+
+    updatePeerEl(el, peer);
+    el.classList.toggle("selected", els.target.value === peer.id);
+  });
+
+  if (els.radarEmpty) els.radarEmpty.hidden = n > 0;
 
   const selected = els.target.value;
   els.target.innerHTML = "";
@@ -708,20 +771,64 @@ function renderPeers() {
     }
   }
 
+  for (const [id, el] of peerEls) {
+    el.classList.toggle("selected", id === els.target.value);
+  }
+
   if (state.ws && state.ws.readyState === WebSocket.OPEN) {
-    setStatus(`信令已连接 · ${list.length} 台设备`);
+    setStatus(n ? `找到 ${n} 台设备 · 点击设备选择` : "正在寻找附近设备…");
   }
 }
 
-function peerLabel(peer) {
-  if (peer.dc && peer.dc.readyState === "open") return "已连接";
-  if (peer.state === "connecting") return "连接中…";
-  if (peer.state === "failed") return "连接失败";
-  if (peer.state === "disconnected") return "已断开";
-  return "准备中…";
+function createPeerEl(peer) {
+  const el = document.createElement("div");
+  el.className = "peer-bubble";
+  el.dataset.peerId = peer.id;
+
+  const ring = document.createElement("div");
+  ring.className = "peer-ring";
+
+  const core = document.createElement("div");
+  core.className = "peer-core";
+  core.innerHTML = DEVICE_ICON;
+
+  const dot = document.createElement("span");
+  dot.className = "peer-dot";
+
+  const name = document.createElement("div");
+  name.className = "peer-name";
+  name.textContent = peer.name;
+
+  el.append(ring, core, dot, name);
+  return el;
 }
 
-function addTransfer(direction, peerName, fileName, size) {
+function updatePeerEl(el, peer) {
+  const name = el.querySelector(".peer-name");
+  if (name) name.textContent = peer.name;
+  const connected = peer.dc && peer.dc.readyState === "open";
+  el.classList.toggle("connected", !!connected);
+  el.classList.toggle("failed", peer.state === "failed");
+}
+
+function selectPeer(id) {
+  if (!state.peers.has(id)) return;
+  els.target.value = id;
+  for (const [peerId, el] of peerEls) {
+    el.classList.toggle("selected", peerId === id);
+  }
+}
+
+function setPeerProgress(peer, ratio) {
+  if (!peer) return;
+  const el = peerEls.get(peer.id);
+  if (!el) return;
+  const value = Math.max(0, Math.min(1, Number(ratio) || 0));
+  el.style.setProperty("--p", String(value * 100));
+  el.classList.toggle("transferring", value > 0 && value < 0.999);
+}
+
+function addTransfer(direction, peerName, fileName, size, peer) {
   const el = document.createElement("div");
   el.className = "transfer";
 
@@ -744,14 +851,17 @@ function addTransfer(direction, peerName, fileName, size) {
   return {
     progress(ratio) {
       fill.style.width = `${Math.max(0, Math.min(1, ratio)) * 100}%`;
+      if (peer) setPeerProgress(peer, ratio);
     },
     done() {
       this.progress(1);
       meta.textContent += " · 完成";
+      if (peer) setTimeout(() => setPeerProgress(peer, 0), 500);
     },
     fail(reason) {
       el.classList.add("failed");
       meta.textContent += ` · 失败：${reason}`;
+      if (peer) setPeerProgress(peer, 0);
     },
   };
 }
@@ -859,6 +969,15 @@ els.reject.addEventListener("click", () => {
   const cb = state.modalCallback;
   closeModal();
   if (cb) cb(false);
+});
+
+els.saveName?.addEventListener("click", saveName);
+
+els.nameInput?.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    saveName();
+  }
 });
 
 els.join.addEventListener("click", () => {
