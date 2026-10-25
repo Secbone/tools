@@ -3,8 +3,7 @@ tools
 
 Some small browser tools.
 
-- `scan/` — TCP port scanner UI (static page; endpoint configured in `scan/config.js`)
-- `scan-worker/` — Cloudflare Worker API used by `scan/`
+- `scan/` — TCP port scanner: static frontend + Cloudflare Worker API (see `scan/README.md`)
 - `convert/` — type conversion
 - `fuzzing/` — fuzz string generator
 - `jother/` — Jother JS encoder

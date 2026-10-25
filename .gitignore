@@ -1,4 +1,4 @@
 .DS_Store
 scan/config.js
-scan-worker/.wrangler/
-scan-worker/node_modules/
+scan/worker/.wrangler/
+scan/worker/node_modules/
