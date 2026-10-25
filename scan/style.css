@@ -1,0 +1,189 @@
+.scanner {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 20px 60px;
+    font-family: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.desc {
+    margin: 0 0 26px;
+    color: #0a0;
+    font-size: 13px;
+    text-align: center;
+}
+
+.form {
+    display: grid;
+    gap: 16px;
+    padding: 20px;
+    border: 1px solid #063;
+    border-radius: 8px;
+    background: rgba(0, 40, 0, 0.18);
+}
+
+.field {
+    display: grid;
+    gap: 6px;
+    color: #0a0;
+    font-size: 12px;
+}
+
+.field input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #0a0;
+    border-radius: 4px;
+    background: #000;
+    color: #0f0;
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+}
+
+.field input:focus {
+    border-color: #0f0;
+    box-shadow: 0 0 0 2px rgba(0, 255, 0, 0.12);
+}
+
+.presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.presets button {
+    padding: 5px 11px;
+    border: 1px solid #063;
+    border-radius: 999px;
+    background: transparent;
+    color: #0a0;
+    font-family: inherit;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.presets button:hover {
+    border-color: #0f0;
+    color: #0f0;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+button.primary {
+    padding: 10px 22px;
+    border: 1px solid #0f0;
+    border-radius: 4px;
+    background: #0f0;
+    color: #000;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+button.primary:hover {
+    background: #0c0;
+    border-color: #0c0;
+}
+
+button.primary:disabled {
+    opacity: 0.45;
+    cursor: wait;
+}
+
+.hint {
+    color: #060;
+    font-size: 12px;
+}
+
+.summary {
+    margin-top: 22px;
+    padding: 12px 14px;
+    border: 1px solid #063;
+    border-radius: 4px;
+    color: #0a0;
+    font-size: 13px;
+}
+
+.summary strong {
+    color: #0f0;
+}
+
+.error {
+    margin-top: 18px;
+    padding: 12px 14px;
+    border: 1px solid #f33;
+    border-radius: 4px;
+    background: rgba(255, 0, 0, 0.08);
+    color: #f66;
+    font-size: 13px;
+}
+
+.table-wrap {
+    margin-top: 20px;
+    border: 1px solid #063;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+thead th {
+    padding: 10px 14px;
+    text-align: left;
+    background: #020;
+    color: #0a0;
+    font-weight: 600;
+    border-bottom: 1px solid #063;
+}
+
+tbody td {
+    padding: 9px 14px;
+    border-bottom: 1px solid #021;
+}
+
+tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+tbody tr:hover {
+    background: rgba(0, 255, 0, 0.04);
+}
+
+.muted {
+    color: #080;
+}
+
+.badge {
+    display: inline-block;
+    padding: 1px 9px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.badge.open { background: rgba(0, 255, 0, 0.14); color: #0f0; }
+.badge.closed { background: rgba(140, 140, 140, 0.12); color: #888; }
+.badge.timeout { background: rgba(255, 200, 0, 0.12); color: #fc0; }
+.badge.blocked { background: rgba(255, 60, 60, 0.12); color: #f66; }
+.badge.unreachable { background: rgba(0, 180, 255, 0.12); color: #0bf; }
+
+.note {
+    margin-top: 26px;
+    color: #060;
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.note code {
+    color: #0a0;
+}

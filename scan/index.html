@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Port Scanner · Secbone's Online Tools</title>
+    <link rel="stylesheet" href="../style/globle.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>Port Scanner</header>
+
+    <main class="scanner">
+        <p class="desc">TCP 端口扫描 · 由 Cloudflare Workers 执行</p>
+
+        <form id="scan-form" class="form">
+            <label class="field">
+                <span>目标主机 / IP</span>
+                <input id="host" type="text" placeholder="example.com 或 1.2.3.4" value="example.com" required autocomplete="off" spellcheck="false">
+            </label>
+
+            <label class="field">
+                <span>端口（逗号分隔，支持 80-90 范围）</span>
+                <input id="ports" type="text" value="22,80,443,3306,3389" required autocomplete="off" spellcheck="false">
+            </label>
+
+            <div class="presets">
+                <button type="button" data-ports="22,80,443,3306,3389">常用</button>
+                <button type="button" data-ports="80,443,8080,8443">Web</button>
+                <button type="button" data-ports="21,22,23,25,53,80,110,143,443,445,1433,3306,3389,5432,6379,8080">全常用</button>
+                <button type="button" data-ports="1-1024">1-1024</button>
+            </div>
+
+            <div class="actions">
+                <button id="submit" type="submit" class="primary">开始扫描</button>
+                <span class="hint">最多 64 个端口 / 次</span>
+            </div>
+        </form>
+
+        <div id="summary" class="summary" hidden></div>
+        <div id="error" class="error" hidden></div>
+
+        <div class="table-wrap">
+            <table id="results" hidden>
+                <thead>
+                    <tr>
+                        <th>端口</th>
+                        <th>服务</th>
+                        <th>状态</th>
+                        <th>耗时</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <p class="note">
+            限制：只支持公网目标（Cloudflare 禁止私网 / localhost / Cloudflare IP），
+            端口 <code>25</code> 被云端禁止。扫描由 Cloudflare Workers 发起，不是本服务器。
+        </p>
+    </main>
+
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
