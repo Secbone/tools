@@ -2,3 +2,6 @@
 scan/config.js
 scan/worker/.wrangler/
 scan/worker/node_modules/
+drop/config.js
+drop/worker/.wrangler/
+drop/worker/node_modules/

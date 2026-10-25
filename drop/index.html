@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drop · Secbone's Online Tools</title>
+    <link rel="stylesheet" href="../style/globle.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>Drop</header>
+
+    <main class="drop">
+        <section class="panel">
+            <div class="status" id="status">正在连接…</div>
+
+            <div class="room-row">
+                <label for="room">房间</label>
+                <input id="room" type="text" placeholder="留空 = 同网络自动" autocomplete="off" spellcheck="false">
+                <button id="join" type="button">加入</button>
+                <button id="auto" type="button">自动</button>
+            </div>
+            <div class="room-info" id="room-info"></div>
+
+            <div class="peers" id="peers"></div>
+        </section>
+
+        <section class="panel">
+            <div class="field">
+                <label for="target">目标设备</label>
+                <select id="target" disabled></select>
+            </div>
+
+            <div id="dropzone" class="dropzone">
+                把文件拖到这里，或点击选择
+                <input id="file" type="file" hidden>
+            </div>
+
+            <div class="text-row">
+                <input id="text" type="text" placeholder="发送文本…" autocomplete="off">
+                <button id="send-text" type="button">发送</button>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2>传输</h2>
+            <div id="transfers" class="list"></div>
+
+            <h2>收到的文件</h2>
+            <div id="received" class="list"></div>
+
+            <h2>消息</h2>
+            <div id="messages" class="list messages"></div>
+        </section>
+    </main>
+
+    <div id="modal" class="modal" hidden>
+        <div class="modal-card">
+            <h3>接收文件？</h3>
+            <p id="modal-meta"></p>
+            <div class="modal-actions">
+                <button id="accept" type="button" class="primary">接收</button>
+                <button id="reject" type="button">拒绝</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
